@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { TestComponent } from './test/test.component';
 import { TodosComponent } from './todos/todos.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [AppComponent, TodosComponent],
@@ -18,6 +19,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     TestComponent,
     HttpClientModule,
     ReactiveFormsModule,
+    MatSlideToggleModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
