@@ -1,0 +1,42 @@
+<form [formGroup]="todoForm" (ngSubmit)="todoForm.valid && onSubmit(todoForm)">
+  <div class="form-item">
+    <label for="title">Title:
+    </label>
+    <input type="text" id="title" formControlName="title">
+    <div class="text-red-600"
+      *ngIf="todoForm.get('title')?.invalid && (todoForm.get('title')?.dirty || todoForm.get('title')?.touched)">
+      Chưa điền title.
+    </div>
+  </div>
+  <div class="form-item">
+    <label for="status">Status
+    </label>
+    <select name="status" id="status" formControlName="status">
+      <option value="new">New</option>
+      <option value="completed">Completed</option>
+      <option value="doing">Doing</option>
+    </select>
+    <div class="text-red-600"
+      *ngIf="todoForm.get('status')?.invalid && (todoForm.get('status')?.dirty || todoForm.get('status')?.touched)">
+      Chưa điền title.
+    </div>
+  </div>
+  <button type="submit">Create todo</button>
+</form>
+
+<table>
+  <thead>
+    <tr>
+      <th class="h-10 text-center">Title</th>
+      <th class="h-10 text-center">Status</th>
+      <th class="h-10 text-center">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let todo of todo$ |  async">
+      <td class="h-10 text-center">{{todo.title}}</td>
+      <td class="h-10 text-center">{{todo.status}}</td>
+      <td class="h-10 text-center"><button (click)="deleteTodo(todo.id)">X</button></td>
+    </tr>
+  </tbody>
+</table>
