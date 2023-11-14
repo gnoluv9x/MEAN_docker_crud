@@ -1,14 +1,15 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { InjectionToken, NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TestComponent } from './test/test.component';
 import { TodosComponent } from './todos/todos.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { TodoService } from './todos/todos.service';
+import { RouterModule } from '@angular/router';
+import { TodoModule } from './todo/todo.module';
 
 @NgModule({
   declarations: [AppComponent, TodosComponent],
@@ -16,10 +17,10 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    TestComponent,
     HttpClientModule,
     ReactiveFormsModule,
-    MatSlideToggleModule,
+    RouterModule,
+    TodoModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

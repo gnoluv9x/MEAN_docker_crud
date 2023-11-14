@@ -1,0 +1,37 @@
+<nav class="nav-links">
+  <a routerLink="/todo/listing">Go to listing</a>
+</nav>
+
+<form action="" (ngSubmit)="handleSubmit()" [formGroup]="todoForm">
+  <div class="example-container">
+    <div class="form-title">
+      <mat-form-field>
+        <mat-label>Nhập tiêu đề:</mat-label>
+        <input matInput placeholder="foo@example.com" formControlName="title" required>
+        <mat-error *ngIf="todoForm.get('title')?.invalid">Vui lòng điền tiêu đề</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-status">
+      <mat-form-field>
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status" required>
+          <mat-option>--</mat-option>
+          <mat-option *ngFor="let status of listStatus" [value]="status.value">
+            {{status.name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="todoForm.get('status')?.getError('required')">Please choose an
+          animal</mat-error>
+        <mat-hint>{{ todoForm.get('status')?.value }}</mat-hint>
+      </mat-form-field>
+    </div>
+
+    <div class="form-btn-submit">
+      <button mat-raised-button color="primary" type="submit">Primary</button>
+    </div>
+
+  </div>
+</form>
+
+<router-outlet></router-outlet>

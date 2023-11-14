@@ -4,3 +4,8 @@ export interface ITodo {
   created: number;
   id: string;
 }
+
+export interface IStatus {
+  name: string;
+  value: string;
+}

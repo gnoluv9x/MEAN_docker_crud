@@ -17,8 +17,10 @@ export class TodoService implements OnInit, OnDestroy {
   private _todoSubject$ = new BehaviorSubject<ITodo[]>([]);
   todo$: Observable<ITodo[]> = this._todoSubject$.asObservable();
   private subscriptions = new Subscription();
+  public randomNumber = Math.random() * 1000;
 
   constructor(private backend: BackendService) {
+    console.log('Debug_here backend: ', backend);
     this.getAll();
   }
 

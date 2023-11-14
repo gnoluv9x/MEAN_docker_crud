@@ -1,8 +1,11 @@
 <div class="p-5">
-  <h1 class="text-3xl font-bold">
-    Hello world!
-  </h1>
-  <app-todos></app-todos>
+  <nav>
+    <a routerLink="/todo">
+      Go to todo
+    </a>
+  </nav>
 
-  <mat-slide-toggle>Toggle me!</mat-slide-toggle>
+  <!-- <app-todos></app-todos> -->
+
+  <router-outlet></router-outlet>
 </div>

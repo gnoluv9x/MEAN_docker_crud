@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TodoService } from './todos.service';
 import {
@@ -18,7 +18,7 @@ export class TodosComponent implements OnInit {
   todo$!: Observable<any>;
   public todoForm!: FormGroup;
 
-  constructor(public todoService: TodoService, private fb: FormBuilder) {
+  constructor(private todoService: TodoService, private fb: FormBuilder) {
     this.todo$ = this.todoService.todo$;
   }
 
