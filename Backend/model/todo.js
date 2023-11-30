@@ -10,6 +10,13 @@ const TodoSchema = new mongoose.Schema(
   { collection: "todos" }
 );
 
+TodoSchema.method("toJSON", function () {
+  // eslint-disable-next-line no-unused-vars
+  const { __v, _id, ...object } = this.toObject();
+  object.id = _id;
+  return object;
+});
+
 const model = mongoose.model("TodoSchema", TodoSchema);
 
 module.exports = model;

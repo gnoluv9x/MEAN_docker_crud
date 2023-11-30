@@ -9,7 +9,7 @@ export const TodoRoutes: Routes = [
     data: { title: 'Todo create' },
     children: [
       {
-        path: 'todo/listing',
+        path: 'listing',
         component: TodoListingComponent,
         data: { title: 'Todo listing' },
       },

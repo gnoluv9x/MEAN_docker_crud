@@ -20,7 +20,6 @@ exports.getAll = async (req, res) => {
 exports.create = async (req, res) => {
   try {
     const { title, status } = req.body;
-    console.log("Debug_here req.body: ", req.body);
     if (!title || !status) throw "Thiếu trường"
 
     const currentTime = new Date();

@@ -1,10 +1,10 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
-import { TodoService } from 'src/app/todos/todos.service';
-import { IStatus } from 'src/types';
+import { TodoService } from 'src/app/services/todos.service';
+import { ILoadingState, IStatus } from 'src/types';
 
 @Component({
   selector: 'app-todo-create',
@@ -13,6 +13,7 @@ import { IStatus } from 'src/types';
 })
 export class TodoCreateComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
+  public loading$: Observable<ILoadingState> = this.todoService.loading$;
 
   todoForm!: FormGroup;
   listStatus: IStatus[] = [
@@ -37,15 +38,13 @@ export class TodoCreateComponent implements OnInit, OnDestroy {
     private todoService: TodoService
   ) {
     this.todoForm = this.fb.group({
-      title: ['New title', Validators.required],
+      title: ['title', Validators.required],
       status: ['new', Validators.required],
     });
   }
 
   ngOnInit(): void {
-    this.subscriptions = (
-      this.router.data as Observable<{ title: string }>
-    ).subscribe((data) => {
+    this.subscriptions = (this.router.data as Observable<{ title: string }>).subscribe(data => {
       this.titleService.setTitle(data.title);
     });
   }

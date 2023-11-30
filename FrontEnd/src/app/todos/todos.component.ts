@@ -1,13 +1,8 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { TodoService } from './todos.service';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
 import { ITodo } from 'src/types';
+import { TodoService } from '../services/todos.service';
 
 @Component({
   selector: 'app-todos',
@@ -15,11 +10,14 @@ import { ITodo } from 'src/types';
   styleUrls: ['./todos.component.scss'],
 })
 export class TodosComponent implements OnInit {
-  todo$!: Observable<any>;
+  public todos$: Observable<ITodo[]>;
   public todoForm!: FormGroup;
 
-  constructor(private todoService: TodoService, private fb: FormBuilder) {
-    this.todo$ = this.todoService.todo$;
+  constructor(
+    private todoService: TodoService,
+    private fb: FormBuilder
+  ) {
+    this.todos$ = this.todoService.listTodos$;
   }
 
   ngOnInit(): void {
