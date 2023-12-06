@@ -1,22 +1,22 @@
-import { AfterViewChecked, AfterViewInit, Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewChecked, Component, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { TodoService } from 'src/app/services/todos.service';
-import { ILoadingState, ITodo } from 'src/types';
+import { Observable, Subscription } from 'rxjs';
+import { TodoService } from 'src/app/services/todo.service';
+import { ITodo } from 'src/types';
 
 @Component({
   selector: 'app-todo-listing',
   templateUrl: './todo-listing.component.html',
   styleUrls: ['./todo-listing.component.scss'],
 })
-export class TodoListingComponent implements OnInit, AfterViewChecked {
+export class TodoListingComponent implements OnInit, AfterViewChecked, OnDestroy {
   public displayedColumns: string[] = ['index', 'title', 'status', 'id'];
   public dataSource = new MatTableDataSource<ITodo>();
-  public loading$: Observable<ILoadingState> = this.todoService.loading$;
   public pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10 };
+  private subscriptions = new Subscription();
 
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild('loadingTempl', { static: true, read: ViewContainerRef })
@@ -32,20 +32,23 @@ export class TodoListingComponent implements OnInit, AfterViewChecked {
       this.title.setTitle(titleData.title);
     });
   }
+
   ngOnInit(): void {
+    this.todoService.retrieveTodo();
     this.refreshTodo();
   }
 
   refreshTodo() {
-    this.todoService.listTodos$.subscribe(data => {
+    const subscription = this.todoService.listTodo$.subscribe(data => {
       if (data.length === 0) {
         this.dataSource.data = [];
       } else {
-        const newListTodos = data.map((item, idx) => ({ ...item, index: idx + 1 }));
-        this.dataSource.data = newListTodos;
+        this.dataSource.data = data;
       }
       this.dataSource.paginator = this.paginator;
     });
+
+    this.subscriptions.add(subscription);
   }
 
   public handleRemove(id: string) {
@@ -54,6 +57,10 @@ export class TodoListingComponent implements OnInit, AfterViewChecked {
 
   ngAfterViewChecked(): void {
     console.log('Debug_here this.pageEvent : ', this.pageEvent);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   getPaginatorData(event: PageEvent): PageEvent {

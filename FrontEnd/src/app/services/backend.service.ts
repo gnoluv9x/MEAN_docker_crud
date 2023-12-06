@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, delay } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ITodo, ITodoResponse } from 'src/types';
 
@@ -12,15 +12,15 @@ export class BackendService {
 
   constructor(private http: HttpClient) {}
 
-  getAllTodos(): Observable<ITodo[]> {
-    return (this.http.get(this.apiUrl + '/todo/getAll') as Observable<ITodo[]>).pipe(delay(3000));
+  getAll(): Observable<ITodo[]> {
+    return this.http.get(this.apiUrl + '/todo/getAll') as Observable<ITodo[]>;
   }
 
-  deleteOneTodo(id: string): Observable<ITodoResponse<{ msg: string }>> {
+  deleteOne(id: string): Observable<ITodoResponse<{ msg: string }>> {
     return this.http.delete(this.apiUrl + '/todo/' + id) as Observable<ITodoResponse<{ msg: string }>>;
   }
 
-  createTodo(todo: Pick<ITodo, 'title' | 'status'>): Observable<ITodoResponse<{ msg: string }>> {
+  create(todo: Pick<ITodo, 'title' | 'status'>): Observable<ITodoResponse<{ msg: string }>> {
     return this.http.post(this.apiUrl + '/todo/create', todo) as Observable<ITodoResponse<{ msg: string }>>;
   }
 }

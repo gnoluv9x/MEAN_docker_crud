@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
-import { TodoService } from 'src/app/services/todos.service';
-import { ILoadingState, IStatus } from 'src/types';
+import { TodoService } from 'src/app/services/todo.service';
+import { IStatus } from 'src/types';
 
 @Component({
   selector: 'app-todo-create',
@@ -13,7 +13,6 @@ import { ILoadingState, IStatus } from 'src/types';
 })
 export class TodoCreateComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
-  public loading$: Observable<ILoadingState> = this.todoService.loading$;
 
   todoForm!: FormGroup;
   listStatus: IStatus[] = [
@@ -58,6 +57,7 @@ export class TodoCreateComponent implements OnInit, OnDestroy {
     const status = this.todoForm.value.status;
     const post = { title, status };
 
-    this.todoService.create(post);
+    const subscription = this.todoService.create(post);
+    this.subscriptions.add(subscription);
   }
 }

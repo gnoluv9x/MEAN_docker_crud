@@ -6,6 +6,7 @@ const authRoutes = require("./routes/auth");
 const todoRoutes = require("./routes/todo");
 const cors = require("cors");
 dotenv.config();
+const db = mongoose.connection
 
 const {
   NODE_DOCKER_PORT,
@@ -16,6 +17,7 @@ const {
 } = process.env;
 
 const mongodbString = `mongodb://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}`;
+// const mongodbString = `mongodb://gnoluv:123456@127.0.0.1:7018`;
 
 console.log("============== Debug_here mongodbString ==============");
 console.dir(mongodbString, { depth: null });
@@ -26,10 +28,11 @@ mongoose.connect(mongodbString, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
-}, (err) => {
-  if (!err) { console.log('MongoDB Connection Succeeded.') }
-  else { console.log('Error in DB connection : ' + err) }
-});
+}).then(() => console.log('DB Connected!'));
+
+db.on('error', (err) => {
+  console.log('DB connection error:', err.message);
+})
 
 const app = express();
 app.use(bodyParser.json());

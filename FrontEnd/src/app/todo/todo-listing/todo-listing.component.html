@@ -1,4 +1,4 @@
-<pre #loadingTempl>Loading state: {{ loading$ | async }}</pre>
+<pre #loadingTempl>Loading state</pre>
 
 <div class="mat-elevation-z8 mt-3 relative min-h-[200px]">
   <table mat-table [dataSource]="dataSource">
@@ -33,9 +33,4 @@
   <mat-paginator [pageSizeOptions]="[10, 20, 30]" [pageSize]="10"
     aria-label="Select page of periodic elements" (page)="pageEvent = getPaginatorData($event)">
   </mat-paginator>
-  <div *ngIf="(loading$ | async) === 'listing'"
-    class="flex justify-center items-center bg-opacity-50 bg-white absolute top-0 left-0 right-0 bottom-0">
-    <mat-progress-spinner color="primary" mode="indeterminate">
-    </mat-progress-spinner>
-  </div>
 </div>
